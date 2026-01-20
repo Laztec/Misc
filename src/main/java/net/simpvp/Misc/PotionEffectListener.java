@@ -23,7 +23,7 @@ public class PotionEffectListener implements Listener {
 		//If entity is less than 100 blocks from spawn
 		if (event.getEntity().getLocation().distanceSquared(event.getEntity().getWorld().getSpawnLocation()) <= 100*100) {
 			//If potion equals mining fatigue and the event is from the "attack" cause
-			if (event.getModifiedType().equals(PotionEffectType.SLOW_DIGGING) && event.getCause().equals(EntityPotionEffectEvent.Cause.ATTACK)) {
+			if (event.getModifiedType().equals(PotionEffectType.MINING_FATIGUE) && event.getCause().equals(EntityPotionEffectEvent.Cause.ATTACK)) {
 				//Cancel event
 				event.setCancelled(true);
 			}

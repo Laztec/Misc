@@ -83,7 +83,7 @@ public class Misc extends JavaPlugin {
 
 
 		if (getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
-			Thunder.add_protocol_listeners();
+			GlobalSoundFix.add_protocol_listener();
 		} else {
 			getLogger().warning("ProtocolLib not found, not enabling thunder modification");
 			return;

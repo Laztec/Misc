@@ -30,7 +30,7 @@ public class DamageSource implements Listener {
      */
     @EventHandler
     public void onExplosionPrimed(ExplosionPrimeEvent event) {
-        if (event.getEntityType() == EntityType.PRIMED_TNT) {
+        if (event.getEntityType() == EntityType.TNT) {
             final TNTPrimed tnt = (TNTPrimed) event.getEntity();
 
             if (tnt.getSource() instanceof Player) {
