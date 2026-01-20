@@ -37,7 +37,7 @@ public class Misc extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new DamageSource(this.getConfig().getInt("projectileOwnerMaxDistance")), this);
 		getServer().getPluginManager().registerEvents(new Announcement(this), this);
 		getServer().getPluginManager().registerEvents(new EnderPearlTeleports(), this);
-		getServer().getPluginManager().registerEvents(new BlueSkulls(), this);
+		getServer().getPluginManager().registerEvents(new WitherSkulls(), this);
 		getServer().getPluginManager().registerEvents(new PigmanDropFix(), this);
 		getCommand("coords").setExecutor(new CoordsForAll());
 		getCommand("f").setExecutor(new Follow());
