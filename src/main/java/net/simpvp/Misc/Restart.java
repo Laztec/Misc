@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +22,9 @@ public class Restart implements CommandExecutor {
 	private static boolean cancelled = true;
 	private static UUID requester = null;
 	private static long last_request = System.currentTimeMillis();
+
+	private static final Instant server_start = Instant.now();
+	private static final Duration minimum_uptime = Duration.ofHours(plugin.getConfig().getLong("minimum-uptime-hours", 24));
 
 	// This is a list of players who can't use /cancelrestart and /requestrestart
 	List<?> cancel = Misc.instance.getConfig().getStringList("disableCancelRestart").stream().map(UUID::fromString).collect(java.util.stream.Collectors.toList());
@@ -53,11 +58,15 @@ public class Restart implements CommandExecutor {
 				return true;
 			}
 
-   			/* This TPS limit reduces players misusing the command for non-performance purposes.
-   			 * High server uptime can still be easily managed by admins or scheduled restarts. */
+			Duration uptime = Duration.between(server_start, Instant.now());
+			boolean high_uptime = uptime.compareTo(minimum_uptime) >= 0;
+
 			double[] tps = plugin.getServer().getTPS();
-			if (tps[0] > 17.0 && tps[1] > 17.0) {
-				player.sendMessage(ChatColor.RED + "A restart does not appear to be necessary. TPS must remain below 17 for an extended period.");
+			boolean low_tps = (tps[0] <= 17.0) || (tps[1] <= 17.0);
+
+			// Allow request if uptime is high or TPS is low
+			if (!high_uptime && !low_tps) {
+				player.sendMessage(ChatColor.RED + "A restart does not appear to be necessary. TPS must be below 17 or uptime over " + minimum_uptime.toHours() + " hours.");
 				return true;
 			}
 
